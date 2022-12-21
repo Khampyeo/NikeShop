@@ -6,6 +6,7 @@ import './animation.css'
 import { BiMenu } from "react-icons/bi";
 import MenuNavBar from '../MenuNavBar/MenuNavBar';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 
@@ -15,6 +16,8 @@ export default function HeaderBody() {
     const [lastScrollY, setLastScrollY] = useState(0);
     const [searchClick, setSearchClick] = useState(false)
     const [menuClick, setMenuClick] = useState(false);
+    const user = useSelector(state => state.reducerUser.user)
+
     const handleMenuClick = () => {
         setMenuClick(!menuClick);
     }
@@ -26,7 +29,6 @@ export default function HeaderBody() {
             } else { // if scroll up show the navbar
                 setShow(true);
             }
-
             // remember current page location to use in the next move
             setLastScrollY(window.scrollY);
         }
@@ -41,8 +43,6 @@ export default function HeaderBody() {
             };
         }
     }, [lastScrollY]);
-
-
 
 
     function RenderSubMenu(props) {
@@ -85,33 +85,42 @@ export default function HeaderBody() {
         const arrayHaveSubNav = [
             {
                 name: 'Men',
-                keywork: 'men'
+                keywork: 'men',
+                link:'/store/all/gender=0'
             },
             {
                 name: 'Women',
-                keywork: 'women'
+                keywork: 'women',
+                link:'/store/all/gender=1'
+
             },
             {
                 name: 'Kids',
-                keywork: 'kids'
+                keywork: 'kids',
+                link:'/store/all/gender=2'
             },
             {
                 name: 'Customise',
-                keywork: 'customise'
+                keywork: 'customise',
+                link:'/store/'
             }
             ,
             {
                 name: 'Sale',
-                keywork: 'sale'
+                keywork: 'sale',
+                link:'/store/'
             },
             {
                 name: 'Gifts 🎁',
-                keywork: 'gift'
+                keywork: 'gift',
+                link:'/store/'
             }];
         const arrayNotSubNav = [
             {
                 name:'SNKRS',
-                keywork:'snkrs'  
+                keywork:'snkrs',
+                link:'https://www.nike.com/vn/launch'
+
             }];
         const [showSubMenu, setShowSubMenu] = useState('')
         return (<Fragment>
@@ -119,7 +128,7 @@ export default function HeaderBody() {
                 <li key={index}
                     id={`sub-item-${index}`}
                     className='group flex items-center' onMouseOver={() => setShowSubMenu(navBarName.name)} onMouseLeave={() => setShowSubMenu('')}>
-                    <Link to={`/store?${navBarName.keywork}`}>
+                    <Link to={`${navBarName.link}`}>
                         <p className='
                         item
                         px-[12px] relative py-[18px] cursor-pointer

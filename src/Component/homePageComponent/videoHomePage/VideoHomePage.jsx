@@ -19,7 +19,7 @@ export default function VideoHomepage() {
                     font-bold
                     ">FIND YOUR FAST</h1>
                 <p className="mb-5">So many want to fly. Choose yours</p>
-                <BlackBtn className='Shop All' padding = 'py-2 px-4'></BlackBtn>
+                <BlackBtn name='Join Us' padding = 'py-2 px-4'></BlackBtn>
             </div>
         </div>
     )

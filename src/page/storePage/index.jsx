@@ -12,15 +12,14 @@ import './animation.css'
 
 const Index = () => {
   const showFilterNav = useSelector(state => state.rootReducerStorePage.showFilterNav)
-  const data = useSelector(state => state.reducerDataShoes.data_sort)
-  const dataOriginal = useSelector(state => state.reducerDataShoes.data)
+    const dataOriginal = useSelector(state => state.reducerDataShoes.data)
 
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const { sort_info } = useParams()
   const { search } = useParams()
 
-  if (sort_info == undefined || search == undefined) {
+  if (sort_info === undefined || search === undefined) {
     navigate("/store/all/all")
   }
   const dataSearch = (search, data) => {
@@ -54,16 +53,14 @@ const Index = () => {
         case 'color':
           const colorsIndex = element['color'].split('').map((element) => Number(element))
           const colors = colorsIndex.map((index) => filter.colors[index])
-          console.log(colors);
           if (colors.length === filter.colors.length) return
           else {
-            const new_data = data?.filter(item => 
+            const new_data = data?.filter(item =>
               item.imgDetails.some(element => {
-                return (colors.some(color=>element.color.toLowerCase().includes(color.toLowerCase())));
+                return (colors.some(color => element.color.toLowerCase().includes(color.toLowerCase())));
               })
             )
             dispatch({ type: 'DATA_SORT', payload: new_data })
-            console.log(new_data);
           }
           break;
         case 'sizes':
@@ -74,15 +71,17 @@ const Index = () => {
     });
   }
   useEffect(() => {
-    if (search !== 'all' && search!=undefined) {
+    const data = dataOriginal
+    let new_data = data
+    if (search !== 'all' && search !== undefined) {
       console.log(search);
-      dataSearch(search, data)
+      new_data = dataSearch(search, data)
     }
-    if (sort_info !== 'all'&& sort_info!=undefined) {
+    if (sort_info !== 'all' && sort_info !== undefined) {
       console.log(sort_info);
-      dataFilter(sort_info, data)
+      dataFilter(sort_info, new_data)
     }
-  }, [search, sort_info, dataOriginal])
+  }, [search, sort_info])
   return (
 
     <div>
