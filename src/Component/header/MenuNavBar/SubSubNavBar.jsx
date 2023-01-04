@@ -18,11 +18,11 @@ export default function SubSubNavBar(props) {
       ${props.subNameClick == ''?'menu-disappear':'menu-appear'}
       `} onAnimationEnd={onAnimationEnd}> 
       <div className="mt-[60px]">
-        <div className="flex items-center"
+        <button className="flex items-center"
           onClick={()=>props.handleSubNameClick()}>
           <FiChevronLeft className='text-[24px] mr-2'></FiChevronLeft>
           <p className='text-[16px]'>{props.prev}</p>
-        </div>
+        </button>
         <h1 className="text-[24px] py-5">{props.name}</h1>
         <div className="">
           {props.arr.map((name,index)=>(

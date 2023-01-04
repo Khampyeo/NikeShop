@@ -154,10 +154,17 @@ export default function FavouritesItem({ favourite, edit, handleSetItemRemove })
                     </button>
                 }
             </div>
-            <div className="fixed top-[92px] right-9 z-[1030]">
+            <div className="fixed lg:top-[92px] top-[60px] right-9 z-[1030]">
                 {showToast}
             </div>
-            {showToast && <div className="modal fixed inset-0 top-[96px] bg-black opacity-40 z-[1020]" onClick={handleShowToast}></div>}
+            {showToast &&
+                <div 
+                    className="
+                        lg:top-[96px]
+                        modal fixed inset-0 top-[60px] bg-black opacity-40 z-[1020]
+                        " 
+                    onClick={handleShowToast}></div>
+            }
         </Fragment >
     )
 }

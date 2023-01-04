@@ -3,15 +3,15 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import data from './data'
 import SubSubNavBar from './SubSubNavBar';
 
-export default function SubNavBarMenu(props){
-  const [showSubMenu,setShowSubMenu] = useState(props.show)
+export default function SubNavBarMenu(props) {
+  const [showSubMenu, setShowSubMenu] = useState(props.show)
   const [subNameClick, setSubNameClick] = useState('');
 
 
-  useEffect(()=>{
-    if(props.show)
-    setShowSubMenu(true)
-  },[props.show])
+  useEffect(() => {
+    if (props.show)
+      setShowSubMenu(true)
+  }, [props.show])
 
   const onAnimationEnd = () => {
     if (!props.show) setShowSubMenu(false);
@@ -19,7 +19,7 @@ export default function SubNavBarMenu(props){
   const handleSubNameClick = () => {
     setSubNameClick('')
   }
-  
+
   const getArrByNameAndTitle = (data, name, title) => {
     const newdataByName = data.find(element => element.name == name)
     const newdataByTitle = newdataByName.category.find(element => element.title == title)
@@ -28,20 +28,20 @@ export default function SubNavBarMenu(props){
   return (
     showSubMenu && <div className={`
     fixed h-[100%] w-[300px] bg-white top-0 right-0 text-[#111] overflow-hidden
-    ${props.show?'menu-appear':'menu-disappear'}
+    ${props.show ? 'menu-appear' : 'menu-disappear'}
     `} onAnimationEnd={onAnimationEnd} >
       <div className={`
       absolute top-0 w-full pt-[40px] px-[30px] transition-all ease-linear
-      ${subNameClick==''?'right-[0px]':'right-[300px]'}
+      ${subNameClick === '' ? 'right-[0px]' : 'right-[300px]'}
       `}>
-        <div className="
+        <button className="
         flex items-center
         " onClick={props.handleNameClick}>
           <FiChevronLeft className='
           text-[24px] mr-2
           '></FiChevronLeft>
           <p className='text-[16px]'>{props.prev}</p>
-        </div>
+        </button>
         <h1 className="text-[24px] py-5">{props.name}</h1>
         <div className="">
           {props.arr.map((name, index) => (
@@ -53,10 +53,10 @@ export default function SubNavBarMenu(props){
                 <FiChevronRight className='text-[24px] mr-2'></FiChevronRight>
               </li>
               <SubSubNavBar
-                subNameClick={subNameClick} 
-                prev={props.name} 
+                subNameClick={subNameClick}
+                prev={props.name}
                 name={name}
-                arr={getArrByNameAndTitle(data, props.name, name)} 
+                arr={getArrByNameAndTitle(data, props.name, name)}
                 handleSubNameClick={handleSubNameClick}
               ></SubSubNavBar>
             </div>

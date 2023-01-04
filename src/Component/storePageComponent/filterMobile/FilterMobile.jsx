@@ -47,7 +47,7 @@ export default function FilterMobile() {
                 </div>
             </div>
             <div className={`
-                fixed bg-white w-[100vw] h-[100vh] left-0 z-[99] p-5 overflow-y-scroll transition-all duration-300
+                fixed bg-white w-[100vw] h-[100vh] left-0 z-[1050] p-5 overflow-y-scroll transition-all duration-300
                 ${showFilter?'top-0':'top-full'}
                 `}>
                 <div className="flex justify-between items-center py-2">
