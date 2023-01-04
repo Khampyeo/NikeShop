@@ -7,12 +7,37 @@ export default function FilterHeader(props) {
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [showSort, setShowSort] = useState(false)
+    const [type, setType] = useState('Shoes')
 
     const counter = useSelector(state => state.rootReducerStorePage.showFilterNav)
     const data = useSelector(state => state.reducerDataShoes.data_sort)
-
+    const type_sort = useSelector(state => state.reducerDataShoes.type_sort)
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        let gender = type_sort?.filter((item) => Object.keys(item).includes('gender'))
+        if (gender.length !== 0) {
+            gender = gender[0]
+            gender = gender['gender'];
+            switch (gender) {
+                case '0':
+                    setType("Men's")
+                    break;
+                case '1':
+                    setType("Women's")
+                    break;
+                case '2':
+                    setType("Kid's")
+                    break;
+                default:
+                    break;
+            }
+        }
+        else{
+            setType("Shoes")
+
+        }
+    }, [type_sort])
     const controlNavbar = () => {
         if (typeof window !== 'undefined') {
             if (window.scrollY > 32 && window.scrollY > lastScrollY) {
@@ -97,7 +122,7 @@ export default function FilterHeader(props) {
                     <h1 className={`
                         transition-all duration-500
                         ${window.pageYOffset > 10 ? 'text-[16px]' : 'text-[24px]'}
-                        `}>Men's Clothing</h1>
+                        `}>{type + '(' + data?.length + ')'}</h1>
                 </div>
                 <div className="
                     lg:flex

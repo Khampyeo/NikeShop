@@ -23,7 +23,7 @@ export default function HeaderFirst() {
     }
     return (
         <div className='
-            lg:px-9
+            lg:px-9 lg:block
             px-4 hidden w-full bg-[#f5f5f5]
         '>
             <div className="py-1 flex justify-between">
