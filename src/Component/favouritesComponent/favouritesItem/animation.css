@@ -1,0 +1,11 @@
+.modal-appear{
+    animation: modalAppear ease-in 0.2s;
+}
+@keyframes modalAppear {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}

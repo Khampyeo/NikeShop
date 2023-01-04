@@ -1,11 +1,15 @@
 export const ACTION_USER = {
   USER: 'USER',
-  STATUS: 'STATUS'
+  STATUS: 'STATUS',
+  TOKEN: 'TOKEN',
+  CART: 'CART',
 };
 
 export const initialState = {
   user: null,
-  status: 'none'
+  status: 'none',
+  token: null,
+  cart: [],
 };
 
 export const reducerUser = (state = initialState, action) => {
@@ -14,6 +18,16 @@ export const reducerUser = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    case ACTION_USER.TOKEN:
+      return {
+        ...state,
+        token: action.payload,
+      };
+    case ACTION_USER.CART:
+      return {
+        ...state,
+        cart: action.payload,
       };
     case ACTION_USER.STATUS:
       return {

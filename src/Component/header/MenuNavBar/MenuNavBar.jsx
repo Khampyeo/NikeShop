@@ -1,16 +1,23 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { GrAdd } from "react-icons/gr";
-import jordanLogo from '../img/jordan-2.svg'
-import { FiChevronRight } from "react-icons/fi";
 import BlackBtn from '../../Button/BlackBtn';
 import WhiteBtn from '../../Button/WhiteBtn';
 import SubNavBarMenu from './SubNavBarMenu';
 import data from './data'
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import jordanLogo from '../img/jordan-2.svg'
+import { GrAdd } from "react-icons/gr";
+import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import { AiOutlineHeart, AiOutlineUser } from "react-icons/ai";
 import './animation.css'
 
 export default function MenuNavBar(props) {
   const [menuShow, setMenuShow] = useState(props.show)
   const [navBarClick, setNavBarClick] = useState('')
+  const [showUser, setShowUser] = useState(false)
+  const [animationEndUser,setAnimationEndUser] = useState(false)
+
+  const user = useSelector(state => state.reducerUser.user)
 
 
   const handleNavBarClick = () => {
@@ -18,17 +25,22 @@ export default function MenuNavBar(props) {
   }
 
   useEffect(() => {
-    if (props.show){
+    if (props.show) {
       document.body.style.overflow = 'hidden'
       setMenuShow(true)
-    } 
+    }
   }, [props.show])
 
   const onAnimationEnd = () => {
-    if (!props.show){
+    if (!props.show) {
       setMenuShow(false);
       document.body.style.overflow = 'visible'
-    } 
+    }
+  };
+  const returnFromUser = () => {
+    if (animationEndUser) {
+      setShowUser(false)
+    }
   };
 
   const arrayHaveSubNav = ['Men', 'Women', 'Kids', 'Customise', 'Sale', 'Gifts 🎁'];
@@ -39,7 +51,7 @@ export default function MenuNavBar(props) {
   }
   return (menuShow &&
     <div className={`
-    fixed w-[300px] h-[100vh] bg-white right-0 top-0 overflow-hidden overflow-y-auto z-[99]
+    fixed w-[300px] h-[100vh] bg-white right-0 top-0 overflow-hidden overflow-y-auto z-[99] text-[#111]
     ${props.show ? 'menu-appear' : 'menu-disappear'}
     `} onAnimationEnd={onAnimationEnd}>
       <div className={`
@@ -51,6 +63,46 @@ export default function MenuNavBar(props) {
           <GrAdd className='rotate-45 text-[24px]'></GrAdd>
         </div>
         <div className="">
+          <div className="" >
+            <div className="group flex justify-between items-center py-[10px] cursor-pointer mb-4 mt-2" 
+                onClick={() => {
+                  setShowUser(true)
+                  setAnimationEndUser(false)
+                  }}>
+              <div className="flex items-center" >
+                <AiOutlineUser className='text-[20px]'></AiOutlineUser>
+                <p className='text-[16px] ml-2'>Hi, {user.name}</p>
+              </div>
+              <FiChevronRight className='text-[22px]'></FiChevronRight>
+            </div>
+            {showUser &&
+              <div
+                className={`
+                  fixed h-[100%] w-[300px] bg-white top-0 right-0 text-[#111] overflow-hidden
+                  ${!animationEndUser ? 'menu-appear' : 'menu-disappear'}
+                `}
+              onAnimationEnd={returnFromUser} 
+              >
+                <div
+                  className={`
+                    absolute top-0 w-full pt-[40px] px-[30px] transition-all ease-linear
+                    ${showUser ? 'right-[0px]' : 'right-[300px]'}
+                  `}>
+                  <div
+                    className="
+                      flex items-center
+                      "
+                    onClick={() => setAnimationEndUser(true)}>
+                    <FiChevronLeft className='text-[24px] mr-2'></FiChevronLeft>
+                    <p className='text-[16px]'>All</p>
+                  </div>
+                  <h1 className="text-[24px] py-5">{user.name}</h1>
+                  <div className="">
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
           {arrayHaveSubNav.map((navBarName, index) => (
             <div key={index} className="">
               <li key={index} id={`sub-item-${index}`}
@@ -87,29 +139,48 @@ export default function MenuNavBar(props) {
           <div className="">
             <img src={jordanLogo} alt="" className='w-8 inline-block mr-5 cursor-pointer' /> <span>Jordan</span>
             <div className="mt-[60px]">
-              <p className="text-[#757575] text-[20px] py-[20px]">Become a Nike Member for the best products, inspiration and stories in sport. <a className='text-[#111]' href="">Learn more</a></p>
-              <div className="mt-[20px]">
-                <BlackBtn name='Join Us'></BlackBtn>
-                <WhiteBtn name='Sign In' style='ml-2'></WhiteBtn>
-              </div>
-              <div className="text-[16px] mt-[40px]">
-                <div className="py-3">
-                  <svg
-                    aria-hidden="true"
-                    className="pre-nav-design-icon inline-block"
-                    width={24}
-                    height={24}
-                    fill="none"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeWidth={1.5}
-                      d="M8.25 8.25V6a2.25 2.25 0 0 1 2.25-2.25h3a2.25 2.25 0 1 1 0 4.5H3.75v8.25a3.75 3.75 0 0 0 3.75 3.75h9a3.75 3.75 0 0 0 3.75-3.75V8.25H17.5"
-                    />
-                  </svg>
-                  <span className='pl-3'>Bag</span>
+              {user.userType === 'guest' &&
+                <div>
+                  <p className="text-[#757575] text-[20px] py-[20px]">Become a Nike Member for the best products, inspiration and stories in sport. <a className='text-[#111]' href="">Learn more</a></p>
+                  <div className="mt-[20px]">
+                    <Link to={'/login'}>
+                      <BlackBtn name='Join Us'></BlackBtn>
+                    </Link>
+                    <Link to={'/register'}>
+                      <WhiteBtn name='Sign In' style='ml-2'></WhiteBtn>
+                    </Link>
+                  </div>
                 </div>
-                <div className="py-3">
+              }
+
+              <div className="text-[16px] mt-[40px]">
+                {user.userType !== 'guest' &&
+                  <Link to={'/favourites'}>
+                    <div className="flex items-center py-3">
+                      <AiOutlineHeart className='text-[24px]'></AiOutlineHeart>
+                      <p className='pl-3'>Favourites</p>
+                    </div>
+                  </Link>
+                }
+                <Link to={'/cart'} onClick={() => console.log(123)}>
+                  <div className="py-3">
+                    <svg
+                      aria-hidden="true"
+                      className="pre-nav-design-icon inline-block"
+                      width={24}
+                      height={24}
+                      fill="none"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                        d="M8.25 8.25V6a2.25 2.25 0 0 1 2.25-2.25h3a2.25 2.25 0 1 1 0 4.5H3.75v8.25a3.75 3.75 0 0 0 3.75 3.75h9a3.75 3.75 0 0 0 3.75-3.75V8.25H17.5"
+                      />
+                    </svg>
+                    <span className='pl-3'>Bag</span>
+                  </div>
+                </Link>
+                <div className="py-3 cursor-pointer">
                   <svg
                     aria-hidden="true"
                     className="pre-nav-design-icon inline-block"
@@ -132,7 +203,7 @@ export default function MenuNavBar(props) {
                   </svg>
                   <span className='pl-3'>Order</span>
                 </div>
-                <div className="py-3">
+                <div className="py-3 cursor-pointer">
                   <svg
                     aria-hidden="true"
                     className="pre-nav-design-icon inline-block"
@@ -155,7 +226,7 @@ export default function MenuNavBar(props) {
                   </svg>
                   <span className='pl-3'>Find a Store</span>
                 </div>
-                <div className="py-3">
+                <div className="py-3 cursor-pointer">
                   <svg
                     aria-hidden="true"
                     className="pre-nav-design-icon inline-block"

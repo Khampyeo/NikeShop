@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import LogoNike from '../header/img/Logo_NIKE.png'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -7,6 +7,8 @@ import * as yup from "yup"
 import { useState } from 'react'
 import { BsCheck } from "react-icons/bs";
 import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const schema = yup.object().shape({
     name: yup.string().min(4).max(15).required(),
@@ -19,6 +21,15 @@ const schema = yup.object().shape({
 
 export default function RegisterForm() {
     const [gender, setGender] = useState(-1)
+    const user = useSelector(state => state.reducerUser.user)
+
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (user.userType != 'guest') {
+            navigate('/')
+        }
+    }, [user])
+    
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: 'all',
         resolver: yupResolver(schema)

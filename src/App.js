@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import nikeLogo from './Component/header/img/Logo_NIKE.png'
 import { BiLoaderAlt } from "react-icons/bi";
+import ScrollToTop from "./ScrollToTop";
+import FavouritesPage from "./page/favouritesPage/FavouritesPage";
 
 
 function App() {
@@ -21,17 +23,26 @@ function App() {
   const status = useSelector(state => state.reducerUser.status)
 
   useEffect(() => {
-    let user = null
-    if (localStorage.getItem('user') && status === 'none') {
-      user = JSON.parse(window.atob(localStorage.getItem('user')))
+    if (localStorage.getItem('user') != null && status === 'none') {
+      const user = JSON.parse(window.atob(localStorage.getItem('user')))
       const getUser = async (userLogin) => {
         dispatch({ type: 'STATUS', payload: 'pending' })
         try {
           const res = await axios.post('https://nike-sever-vtcoder.glitch.me/users/login', userLogin)
             .then((response) => {
-              const user = response.data.user
-              dispatch({ type: 'USER', payload: user })
-              dispatch({ type: 'STATUS', payload: 'done' })
+              const data = {
+                user: { ...response.data.user },
+                token: response.data.token
+              }
+              console.log(data);
+              const userData = JSON.parse(localStorage.getItem(data.user._id))
+              if (userData) {
+                dispatch({ type: 'CART', payload: userData.cart })
+                data.user.productsFavorite = userData.favourites
+              }
+              dispatch({ type: 'USER', payload: data.user })
+              dispatch({ type: 'TOKEN', payload: data.token })
+              dispatch({ type: 'STATUS', payload: 'login' })
               alert('Success!!')
             })
             .catch(function (error) {
@@ -44,11 +55,26 @@ function App() {
       }
       getUser(user)
     }
+    else {
+      const user = {
+        age: null,
+        email: null,
+        name: 'guest',
+        productsFavorite: [],
+        userType: 'guest',
+        _id: '1231'
+      }
+      dispatch({ type: 'USER', payload: user })
+      dispatch({ type: 'STATUS', payload: 'notlogin' })
+    }
   }, [])
-  return status === 'done' ?
+
+
+  return status === 'login' || status === 'notlogin' ?
     (
       <BrowserRouter>
         <HeaderMain />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage></HomePage>} />
           <Route path="/login" element={<LoginPage></LoginPage>} />
@@ -57,6 +83,7 @@ function App() {
           <Route path="/store/:search/:sort_info" element={<StorePage></StorePage>} />
           <Route path="/cart" element={<CartPage></CartPage>} />
           <Route path="/item/:id" element={<ItemPage></ItemPage>} />
+          <Route path="/favourites" element={<FavouritesPage></FavouritesPage>} />
           <Route path='*' element={<HomePage />} />
         </Routes>
         <FooterMain />

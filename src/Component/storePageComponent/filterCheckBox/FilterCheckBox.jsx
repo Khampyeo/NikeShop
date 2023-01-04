@@ -1,23 +1,73 @@
 import React, { useEffect, useState } from 'react'
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 export default function FilterCheckBox(props) {
+    const type_sort = useSelector(state => state.reducerDataShoes.type_sort)
     const navigate = useNavigate()
     const [show, setShow] = useState(true)
     const [more, setMore] = useState(false)
     const [checkedState, setCheckedState] = useState(
         new Array(props.arr.length).fill(false)
     );
-    const { sort_info } = useParams
-    const { search } = useParams
-    let url = ''
 
+    const { sort_info } = useParams()
+    const { search } = useParams()
+    let url = ''
+    useEffect(() => {
+        const exist = type_sort?.some((element)=>Object.keys(element)[0] === props.name.toLowerCase().replace(/\s/g, ''))
+        if(!exist){
+            setCheckedState(new Array(props.arr.length).fill(false))
+        }
+        if (type_sort !== []) {
+            type_sort.forEach(element => {
+                if (Object.keys(element)[0] === props.name.toLowerCase().replace(/\s/g, '')) {
+                    const name = props.name.toLowerCase().replace(/\s/g, '')
+                    const arrIndex = element[name].split("")
+                    let checkedArr = new Array(props.arr.length).fill(false)
+                    arrIndex.forEach((index) => {
+                        checkedArr[index] = true
+                    })
+                    setCheckedState(checkedArr)
+                }
+            })
+        }
+
+    }, [type_sort])
+    const handleName = (position) => {
+        let checkTostring = ''
+        checkedState.forEach((element, index) => {
+            if (element == true) checkTostring += index
+        })
+        if (checkTostring.indexOf(position) >= 0) url = props.name.toLowerCase().replace(/\s/g, '') + '=' + checkTostring.slice(0, checkTostring.indexOf(position)) + checkTostring.slice(checkTostring.indexOf(position) + 1);
+        else url = props.name.toLowerCase().replace(/\s/g, '') + '=' + checkTostring + String(position)
+        return url
+    }
     const handleOnChange = (position) => {
-        const checkTostring = checkedState.filter((element) =>
-        element == true).reduce((accumulator, currentValue, currentIndex) => accumulator + String(currentIndex), '')
-        if(checkTostring.indexOf(position) >= 0 ) url = props.name.toLowerCase() + '=' + checkTostring.slice(0, checkTostring.indexOf(position)) + checkTostring.slice(checkTostring.indexOf(position)+1);
-        else url = props.name.toLowerCase() + '=' + checkTostring + String(position)
-        // navigate(`store/search/${url}`)
+        const name = handleName(position)
+        let url = ''
+        const checkExist = type_sort.some((element) => Object.keys(element)[0] === props.name.toLowerCase().replace(/\s/g, ''))
+        if (!checkExist) {
+            if(name !== props.name.toLowerCase().replace(/\s/g, '')+'=')
+            url += name + '&'
+        }
+        type_sort.forEach((element) => {
+            const key = Object.keys(element)[0]
+            if (key === props.name.toLowerCase().replace(/\s/g, '')) {
+                if(name !== props.name.toLowerCase().replace(/\s/g, '')+'=')
+                url += name + '&'
+            }
+            else {
+                url += key + '=' + element[key] + '&'
+            }
+        })
+        url = url.slice(0, -1)
+        if (url === '') {
+            navigate(`/store/${search}/all`)
+        }
+        else {
+            navigate(`/store/${search}/${url}`)
+        }
     }
     return (
         <div className='py-2'>

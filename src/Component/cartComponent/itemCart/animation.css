@@ -1,0 +1,14 @@
+.delete-animation{
+    animation: deleteAnimation ease-in 0.3s;
+    transform: scale(0);
+}
+
+@keyframes deleteAnimation {
+    from{
+        transform: scale(1);
+    }
+    to{
+        transform: scale(0);
+    }
+    
+}

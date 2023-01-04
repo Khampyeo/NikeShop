@@ -8,12 +8,11 @@ import './scrollbar.css'
 
 export default function TypesIntroduce() {
     const ref = useRef();
-    // const [scrollX,setScrollX] = useState(ref.current.scrollLeft)
     const scroll = (scrollOffset) => {
-        console.log(ref.current.scrollLeft+=scrollOffset);
-      };
+        ref.current.scrollLeft += scrollOffset
+    };
 
-    return (    
+    return (
         <div>
             <div className="
                 md:visible

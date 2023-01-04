@@ -7,7 +7,8 @@ import clsx from 'clsx'
 import * as yup from "yup"
 import axios from 'axios'
 import { BiLoaderAlt } from "react-icons/bi";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 const schema = yup.object().shape({
     email: yup.string().email().required(),
@@ -21,26 +22,33 @@ export default function LoginForm() {
     });
 
     const [loading, setLoading] = useState(true)
-    const dispatch = useDispatch() 
+    const user = useSelector(state => state.reducerUser.user)
+
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if (user.userType != 'guest') {
+            navigate('/')
+        }
+    }, [user])
     const submitForm = (data) => {
-        setLoading(false)   
+        setLoading(false)
         const loginData = {
             email: data.email,
             password: data.password
         }
-        console.log(data);
         const Login = async (loginData) => {
             const res = await axios.post('https://nike-sever-vtcoder.glitch.me/users/login', loginData)
                 .then((response) => {
-                    const user = response.data.user
-                    dispatch({ type: 'USER', payload: user })
-                    dispatch({ type: 'STATUS', payload: 'done' })
+                    console.log(response.data.user);
+
+                    dispatch({ type: 'USER', payload: response.data.user })
+                    dispatch({ type: 'TOKEN', payload: response.data.token })
+                    dispatch({ type: 'STATUS', payload: 'login' })
                     alert('Success!!')
-                    navigate('/')
-                    if(data.checkbox == 'true')
-                    {
+                    navigate(-1)
+                    if (data.checkbox == 'true') {
                         const data_local = {
                             email: data.email,
                             password: (data.password)
@@ -51,7 +59,7 @@ export default function LoginForm() {
                 .catch(function (error) {
                     alert(error);
                 });
-            setLoading(true) 
+            setLoading(true)
         }
         Login(loginData)
     };

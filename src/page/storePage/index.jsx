@@ -12,16 +12,20 @@ import './animation.css'
 
 const Index = () => {
   const showFilterNav = useSelector(state => state.rootReducerStorePage.showFilterNav)
-    const dataOriginal = useSelector(state => state.reducerDataShoes.data)
+  const dataOriginal = useSelector(state => state.reducerDataShoes.data)
+  const type_sort = useSelector(state => state.reducerDataShoes.type_sort)
 
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const { sort_info } = useParams()
   const { search } = useParams()
 
-  if (sort_info === undefined || search === undefined) {
-    navigate("/store/all/all")
-  }
+  useEffect(() => {
+    if (sort_info === undefined || search === undefined) {
+      navigate("/store/all/all")
+    }
+  }, [sort_info, search])
+
   const dataSearch = (search, data) => {
     let new_data = []
     if (data != null) {
@@ -39,6 +43,7 @@ const Index = () => {
       obj[temp[0]] = temp[1]
       return obj;
     })
+    dispatch({ type: 'TYPE_SORT', payload: infoArr })
     infoArr.forEach(element => {
       switch (Object.keys(element)[0]) {
         case 'gender':
@@ -46,8 +51,7 @@ const Index = () => {
           const gender = genderIndex.map((index) => filter.gender[index])
           if (gender.length === 3) return
           else {
-            new_data = data?.filter(item => gender.includes(item.gender))
-            dispatch({ type: 'DATA_SORT', payload: new_data })
+            new_data = new_data?.filter(item => gender.includes(item.gender))
           }
           break;
         case 'color':
@@ -55,33 +59,56 @@ const Index = () => {
           const colors = colorsIndex.map((index) => filter.colors[index])
           if (colors.length === filter.colors.length) return
           else {
-            const new_data = data?.filter(item =>
+            new_data = new_data?.filter(item =>
               item.imgDetails.some(element => {
                 return (colors.some(color => element.color.toLowerCase().includes(color.toLowerCase())));
               })
             )
-            dispatch({ type: 'DATA_SORT', payload: new_data })
           }
           break;
         case 'sizes':
+          const sizeIndex = element['sizes'].match(/.{1,2}/g).map((element) => Number(element))
+          const sizes = sizeIndex.map((index) => filter.sizes[index])
+          if (sizes.length === filter.sizes.length) return
+          else {
+            new_data = new_data?.filter(item =>
+              item.sizes.some(element => {
+                return (sizes.some(size => element.size.toLowerCase().includes(size?.toString().toLowerCase())))
+              })
+            )
+          }
+          break;
+        case 'shopbyprice':
+          const shopByPriceIndex = element['shopbyprice'].split('').map((element) => Number(element))
+          const shopByPrice = shopByPriceIndex.map((index) => filter.shopbyprice[index])
+          if (shopByPrice.length === filter.shopbyprice.length) return
+          else {
+            new_data = new_data?.filter(item => {
+              return shopByPrice.some((element)=> element.low < item.price && element.high > item.price)
+            })
+          }
           break;
         default:
           break;
       }
-    });
+    })
+    return new_data
+
   }
   useEffect(() => {
     const data = dataOriginal
     let new_data = data
     if (search !== 'all' && search !== undefined) {
-      console.log(search);
       new_data = dataSearch(search, data)
     }
     if (sort_info !== 'all' && sort_info !== undefined) {
-      console.log(sort_info);
-      dataFilter(sort_info, new_data)
+      new_data = dataFilter(sort_info, new_data)
     }
-  }, [search, sort_info])
+    else {
+      dispatch({ type: 'TYPE_SORT', payload: [] })
+    }
+    dispatch({ type: 'DATA_SORT', payload: new_data })
+  }, [search, sort_info, dataOriginal])
   return (
 
     <div>

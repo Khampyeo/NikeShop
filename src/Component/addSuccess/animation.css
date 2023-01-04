@@ -1,0 +1,13 @@
+
+.toast-appear{
+    animation: AppearToast .3s ease-in;
+}
+
+@keyframes AppearToast {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}

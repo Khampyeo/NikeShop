@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import ColourFilter from '../colour/ColourFilter'
 import FilterCheckBox from '../filterCheckBox/FilterCheckBox'
 import FilterRadio from '../filterRadio/FilterRadio'
@@ -6,7 +7,7 @@ import Size from '../size/Size'
 import './scrollbar.css'
 
 export default function FilterNav() {
-  const category = ['Lifestyle', 'Jordan', 'Running', 'Basketball', 'Training & Gym', 'Football', 'Skateboarding', 'Golf', 'Boots', 'Tennis', 'Athletics', 'Walking']
+    const category = ['Lifestyle', 'Jordan', 'Running', 'Basketball', 'Training & Gym', 'Football', 'Skateboarding', 'Golf', 'Boots', 'Tennis', 'Athletics', 'Walking']
 
   return (
     <div className='

@@ -1,6 +1,6 @@
-import React, { Children, Fragment, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import numToPrice from '../../functions/NumToPrice'
 import './animation.css'
 export default function Item(props) {
     const [showImg, setShowImg] = useState(props.item.img)
@@ -17,19 +17,7 @@ export default function Item(props) {
                 ))}
             </div>)
     }
-    const numToPrice = (num) => {
-        let str = String(num);
-        let len = str.length;
-        if (len < 3) return str
-        else if (len < 7) {
-            str = str.slice(0, -3) + ',' + str.slice(-3)
-            return str
-        }
-        else {
-            str = str.slice(0, -6) + ',' + str.slice(-6, -3) + ',' + str.slice(-3)
-            return str
-        };
-    }
+    
     return (
         <Link to={`/item/${props.item._id}`}>
             <div className='w-full relative' onMouseEnter={() => setShowColor(true)} onMouseLeave={() => setShowColor(false)}>

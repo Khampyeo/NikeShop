@@ -2,11 +2,13 @@ export const ACTION_DATA_SHOES = {
   DATA_SHOES: 'DATA_SHOES',
   PENDING: 'PENDING',
   DATA_SORT: 'DATA_SORT',
+  TYPE_SORT: 'TYPE_SORT'
 };
 
 export const initialState = {
   data: null,
   data_sort: null,
+  type_sort: [],
   status: -1,
 };
 
@@ -27,6 +29,11 @@ export const reducerDataShoes = (state = initialState, action) => {
       return {
         ...state,
         status: 0
+      };
+    case ACTION_DATA_SHOES.TYPE_SORT:
+      return {
+        ...state,
+        type_sort: action.payload
       };
     default:
       return {
