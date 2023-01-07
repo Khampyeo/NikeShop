@@ -11,7 +11,7 @@ export default function AddSuccess({ item, setShowToast }) {
     });
     
     return (
-        <div className='toast-appear bg-white p-4 text-[#111]  sm:w-auto w-[100vw]'>
+        <div className='toast-appear bg-white p-4 text-[#111] sm:w-auto w-[100vw]'>
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <BsCheck className='text-white text-[16px] bg-green-700 rounded-full'></BsCheck>

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { useState } from 'react';
 import BlackBtn from '../../Button/BlackBtn';
 import { BsHeart, BsHeartFill, BsCheck } from "react-icons/bs";
+import { RiAddFill } from "react-icons/ri";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import numToPrice from '../../functions/NumToPrice';
@@ -16,13 +17,24 @@ export default function FavouritesItem({ favourite, edit, handleSetItemRemove })
     const [showToast, setShowToast] = useState(null)
     const user = useSelector(state => state.reducerUser.user)
     const cart = useSelector(state => state.reducerUser.cart)
-    console.log(favourite);
 
     const dispatch = useDispatch()
 
     useEffect(() => {
         setRemoveFavorite(false)
     }, [user])
+
+    useEffect(() => {
+        const width = document.body.offsetWidth
+        if (Buy && width < 786) {
+            document.body.style.overflow = 'hidden'
+        }
+        else {
+            document.body.style.overflow = 'visible'
+
+        }
+    }, [Buy])
+
     const SelectSizeShoe = (size) => {
         setSizeSelect(size)
         setSizeValid(false)
@@ -74,11 +86,20 @@ export default function FavouritesItem({ favourite, edit, handleSetItemRemove })
         <Fragment>
             {Buy &&
                 <div className="fixed bg-black/[0.3] inset-0 z-[1100] flex justify-center items-center" onClick={() => setBuy(false)}>
-                    <div className="w-[928px] h-[488px] bg-white m-auto flex p-6 rounded-2xl modal-appear" onClick={(e) => e.stopPropagation()}>
-                        <div className="mt-3 rounded-lg overflow-hidden">
-                            <img src={favourite.img} alt="" className='w-[430px] h-[430px] ' />
+                    <div
+                        className="
+                            md:flex-row md:w-auto md:h-auto md:rounded-2xl
+                            bg-white m-auto flex flex-col w-[100vw] overflow-y-auto overflow-x-hidden h-[100vh] px-6 pt-10 pb-4 modal-appear relative text-[#111]
+                            "
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button className="absolute top-2 right-2 cursor-pointer hover:opacity-60" onClick={() => setBuy(false)}>
+                            <RiAddFill className='md:text-[30px] text-[46px] rotate-45'></RiAddFill>
+                        </button>
+                        <div className="mt-3 rounded-lg md:overflow-hidden">
+                            <img src={favourite.img} alt="" className='md:w-[430px] md:h-[430px] w-full' />
                         </div>
-                        <div className="text-base text-[#111] ml-6 flex-1 flex flex-col pt-3">
+                        <div className="text-base md:w-[488px] w-full text-[#111] md:ml-6 flex-1 flex flex-col pt-3">
                             <div className="flex justify-between mb-2">
                                 <p>{favourite.message}</p>
                                 <p>{numToPrice(favourite.price)}đ</p>
@@ -154,15 +175,18 @@ export default function FavouritesItem({ favourite, edit, handleSetItemRemove })
                     </button>
                 }
             </div>
-            <div className="fixed lg:top-[92px] top-[60px] right-9 z-[1030]">
+            <div
+                className="
+                    sm:right-9 sm:left-auto
+                    fixed lg:top-[92px] top-[60px] right-auto left-0 z-[1030]">
                 {showToast}
             </div>
             {showToast &&
-                <div 
+                <div
                     className="
                         lg:top-[96px]
                         modal fixed inset-0 top-[60px] bg-black opacity-40 z-[1020]
-                        " 
+                        "
                     onClick={handleShowToast}></div>
             }
         </Fragment >

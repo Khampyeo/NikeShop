@@ -13,7 +13,6 @@ export default function ItemPage() {
   const { id } = useParams()
   const data = useSelector(state => state.reducerDetailItem.data)
   const dispatch = useDispatch()
-  console.log(data);
   useEffect(() => {
     const callApi = async () => {
       try {

@@ -25,7 +25,7 @@ export default function HeaderBody() {
     const handleMenuClick = () => {
         setMenuClick(!menuClick);
     }
-    const handleSetSearchClick =(bool)=>{
+    const handleSetSearchClick = (bool) => {
         setSearchClick(bool)
     }
     const controlNavbar = () => {
@@ -163,7 +163,7 @@ export default function HeaderBody() {
     }
     return (
         <Fragment>
-            {searchClick && <div className="fixed bg-black opacity-50 inset-0 z-[1020] backdrop-blur-3xl" onClick={()=>setSearchClick(false)}></div>}
+            {searchClick && <div className="fixed bg-black opacity-50 inset-0 z-[1020] backdrop-blur-3xl" onClick={() => setSearchClick(false)}></div>}
             <div id='header-body'
                 className={`
                     w-full bg-white transition-all z-[1030]
@@ -249,9 +249,7 @@ export default function HeaderBody() {
                                 `}>
                                 </BiMenu>
                             </div>
-                            <div className="lg:hidden">
-                                <MenuNavBar show={menuClick} onExit={handleMenuClick}></MenuNavBar>
-                            </div>
+
                             <div className={`
                                 cancel-search 
                                 absolute top-1/2 -translate-y-1/2 right-4 hover:opacity-70 cursor-pointer
@@ -269,6 +267,9 @@ export default function HeaderBody() {
             h-[64px] bg-white w-full ${window.scrollY > 32 ? 'block' : 'hidden'}
             
             `}></div>
+            <div className="lg:hidden">
+                <MenuNavBar show={menuClick} onExit={handleMenuClick}></MenuNavBar>
+            </div>
         </Fragment>
 
     )

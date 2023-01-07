@@ -13,7 +13,6 @@ export default function StoreBody() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log(123);                         
     const callApi = async () => {
       try {
         dispatch({ type: 'PENDING', })

@@ -48,7 +48,6 @@ export default function LoginForm() {
                     const userData = JSON.parse(localStorage.getItem(new_data.user._id))
                     if (userData) {
                         dispatch({ type: 'CART', payload: userData.cart })
-                        console.log(userData);
                         new_data.user.productsFavorite = userData.favourites
                     }
                     else {

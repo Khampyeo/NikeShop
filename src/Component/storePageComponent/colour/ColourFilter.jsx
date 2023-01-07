@@ -47,7 +47,6 @@ export default function () {
     }
     const handleOnChange = (position) => {
         const name = handleName(position)
-        console.log(name);
         let url = ''
         const checkExist = type_sort.some((element) => Object.keys(element)[0] === 'color')
         if (!checkExist) {
@@ -55,7 +54,6 @@ export default function () {
                 url += name + '&'
         }
         type_sort.forEach((element) => {
-            console.log(element);
             const key = Object.keys(element)[0]
             if (key === 'color') {
                 if (name !== 'color=') {

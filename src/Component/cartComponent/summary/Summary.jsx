@@ -5,11 +5,10 @@ import BlackBtn from '../../Button/BlackBtn';
 import numToPrice from '../../functions/NumToPrice';
 export default function Summary(props) {
     const cart = useSelector(state => state.reducerUser.cart)
-    const sumMoney =() => cart?.reduce(
+    const sumMoney = () => cart?.reduce(
         (accumulator, item) => accumulator + item.price * item.quantity,
         0
     )
-    console.log(cart);
     return (
         <div className={`
             text-[#111] w-full
@@ -37,7 +36,11 @@ export default function Summary(props) {
                 <p>Total</p>
                 <p>{numToPrice(sumMoney())}₫</p>
             </div>
-            <div className="mt-8">
+            <div
+                className="
+                    md:static md:p-0 md:border-none
+                    w-full left-0 fixed bottom-0 px-4 py-2 bg-white z-[1000] border mt-8"
+            >
                 <BlackBtn name='Checkout' width='w-full' padding='px-2 py-4 '></BlackBtn>
             </div>
         </div>
