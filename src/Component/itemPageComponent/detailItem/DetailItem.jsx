@@ -176,7 +176,13 @@ export default function DetailItem() {
             <Size sizes={data.sizes} sizeSelection={sizeSelection}></Size>
           </div>
         </div>
+        <div 
+          className="
+            md:static md:p-0 md:border-none
+            w-full left-0 fixed bottom-0 px-4 py-2 bg-white z-[1000] border
+            ">
         <button className='w-full bg-[#111] text-white rounded-full py-5 mb-2' onClick={addToBag}>Add to Bag</button>
+        </div>
         <button
           className={`
           py-5 w-full flex justify-center items-center rounded-full
@@ -191,7 +197,10 @@ export default function DetailItem() {
         <p className='my-8 pb-1 border-b border-[#111] inline-block'>View Product Details</p>
         <DeliveryPolicy></DeliveryPolicy>
       </div>
-      <div className="fixed lg:top-[92px] top-[60px] right-9 z-[1030]">
+      <div className="
+            sm:right-9 sm:left-auto
+            fixed lg:top-[92px] top-[60px] right-auto left-0 z-[1030]
+            ">
         {showToast}
       </div>
       {showToast && <div className="modal fixed inset-0 lg:top-[92px] top-[60px] bg-black opacity-40 z-[1020]" onClick={handleShowToast}></div>}

@@ -15,7 +15,9 @@ export default function SearchInput({ searchClick, setSearchClick }) {
     }
     const onCLickSearchIcon = () => {
         setSearchClick(false)
-        navigate(`/store/${searchValue}/all`)
+        if(searchClick){
+            navigate(`/store/${searchValue}/all`)
+        }
     }
     return (
         <div ref={ref} className={`

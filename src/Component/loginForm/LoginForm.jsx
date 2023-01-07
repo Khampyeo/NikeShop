@@ -41,22 +41,30 @@ export default function LoginForm() {
         const Login = async (loginData) => {
             const res = await axios.post('https://nike-sever-vtcoder.glitch.me/users/login', loginData)
                 .then((response) => {
-                    const data = {
+                    const new_data = {
                         user: { ...response.data.user },
                         token: response.data.token
-                      }
-                      const userData = JSON.parse(localStorage.getItem(data.user._id))
-                      if (userData) {
+                    }
+                    const userData = JSON.parse(localStorage.getItem(new_data.user._id))
+                    if (userData) {
                         dispatch({ type: 'CART', payload: userData.cart })
-                        data.user.productsFavorite = userData.favourites
-                      }
-                      else{
+                        console.log(userData);
+                        new_data.user.productsFavorite = userData.favourites
+                    }
+                    else {
                         dispatch({ type: 'CART', payload: [] })
-                      }
-                      dispatch({ type: 'USER', payload: data.user })
-                      dispatch({ type: 'TOKEN', payload: data.token })
-                      dispatch({ type: 'STATUS', payload: 'login' })
-                      navigate('/homepage')
+                    }
+                    dispatch({ type: 'USER', payload: new_data.user })
+                    dispatch({ type: 'TOKEN', payload: new_data.token })
+                    dispatch({ type: 'STATUS', payload: 'login' })
+                    navigate('/homepage')
+                    if (data.checkbox == 'true') {
+                        const data_local = {
+                            email: data.email,
+                            password: (data.password)
+                        }
+                        localStorage.setItem("user", window.btoa(JSON.stringify(data_local)));
+                    }
                 })
                 .catch(function (error) {
                     alert(error);
