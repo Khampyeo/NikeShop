@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Error from '../../Component/errorCoponent/Error'
 
 export default function ItemPage() {
+  document.title = 'Nike. Item'
+
   const { id } = useParams()
   const data = useSelector(state => state.reducerDetailItem.data)
   const dispatch = useDispatch()

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import Notification from '../../notification/Notification';
 import numToPrice from '../../functions/NumToPrice'
 import './animation.css'
 export default function ItemCart({ itemInfo }) {
+    const [alert, setAlert] = useState(false)
 
     const dispatch = useDispatch()
     const cart = useSelector(state => state.reducerUser.cart)
@@ -51,7 +53,7 @@ export default function ItemCart({ itemInfo }) {
         }
         else {
             if (checkExist()) {
-                alert('da ton tai')
+                setAlert(true)
             }
             else {
                 let new_user = { ...user }
@@ -69,6 +71,7 @@ export default function ItemCart({ itemInfo }) {
         const new_cart = [...cart]
         new_cart[index].quantity = quantity
         localStorage.setItem(user._id, JSON.stringify({ cart: new_cart, favourites: user.productsFavorite }));
+        dispatch({ type: 'CART', payload: new_cart })
 
     }
     const hanldeChangeSize = (e) => {
@@ -77,7 +80,11 @@ export default function ItemCart({ itemInfo }) {
         const new_cart = [...cart]
         new_cart[index].size = size
         localStorage.setItem(user._id, JSON.stringify({ cart: new_cart, favourites: user.productsFavorite }));
+        dispatch({ type: 'CART', payload: new_cart })
 
+    }
+    const handleSetArlet = (bool)=>{
+        setAlert(bool)
     }
     return (
         <div className={`
@@ -147,6 +154,8 @@ export default function ItemCart({ itemInfo }) {
                 </div>
                 <p className=''>{numToPrice(itemInfo.price)}đ</p>
             </div>
+
+            {alert && <Notification type={'error'} setAlert={handleSetArlet} title={'Duplicate Item'}></Notification>}
         </div>
     )
 }

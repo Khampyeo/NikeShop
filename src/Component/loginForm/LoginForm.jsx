@@ -41,20 +41,22 @@ export default function LoginForm() {
         const Login = async (loginData) => {
             const res = await axios.post('https://nike-sever-vtcoder.glitch.me/users/login', loginData)
                 .then((response) => {
-                    console.log(response.data.user);
-
-                    dispatch({ type: 'USER', payload: response.data.user })
-                    dispatch({ type: 'TOKEN', payload: response.data.token })
-                    dispatch({ type: 'STATUS', payload: 'login' })
-                    alert('Success!!')
-                    navigate(-1)
-                    if (data.checkbox == 'true') {
-                        const data_local = {
-                            email: data.email,
-                            password: (data.password)
-                        }
-                        localStorage.setItem("user", window.btoa(JSON.stringify(data_local)));
-                    }
+                    const data = {
+                        user: { ...response.data.user },
+                        token: response.data.token
+                      }
+                      const userData = JSON.parse(localStorage.getItem(data.user._id))
+                      if (userData) {
+                        dispatch({ type: 'CART', payload: userData.cart })
+                        data.user.productsFavorite = userData.favourites
+                      }
+                      else{
+                        dispatch({ type: 'CART', payload: [] })
+                      }
+                      dispatch({ type: 'USER', payload: data.user })
+                      dispatch({ type: 'TOKEN', payload: data.token })
+                      dispatch({ type: 'STATUS', payload: 'login' })
+                      navigate('/homepage')
                 })
                 .catch(function (error) {
                     alert(error);

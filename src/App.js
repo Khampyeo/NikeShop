@@ -34,7 +34,6 @@ function App() {
                 user: { ...response.data.user },
                 token: response.data.token
               }
-              console.log(data);
               const userData = JSON.parse(localStorage.getItem(data.user._id))
               if (userData) {
                 dispatch({ type: 'CART', payload: userData.cart })
@@ -43,10 +42,9 @@ function App() {
               dispatch({ type: 'USER', payload: data.user })
               dispatch({ type: 'TOKEN', payload: data.token })
               dispatch({ type: 'STATUS', payload: 'login' })
-              alert('Success!!')
             })
             .catch(function (error) {
-              alert(error);
+              alert('error')
             });
         }
         catch (er) {

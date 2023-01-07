@@ -10,9 +10,10 @@ import { Fragment } from 'react'
 import HeaderAds from '../../Component/header/HeaderAds/HeaderAds'
 
 export default function HomePage() {
+  document.title = 'Nike. Homepage'
   return (
     <Fragment>
-      <HeaderAds/>
+      <HeaderAds />
       <div className='
       lg:px-9
       w-full px-4 max-w-[1800px] mx-auto

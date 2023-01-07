@@ -5,6 +5,8 @@ import FavouritesHeader from '../../Component/favouritesComponent/favouritesHead
 import FavouritesItem from '../../Component/favouritesComponent/favouritesItem/FavouritesItem'
 
 export default function FavouritesPage() {
+  document.title = 'Nike. Favourites'
+
 
   const user = useSelector(state => state.reducerUser.user)
   // const cart = useSelector(state => state.reducerUser.cart)

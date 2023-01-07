@@ -11,6 +11,8 @@ import './animation.css'
 
 
 const Index = () => {
+  document.title = 'Nike. Store'
+
   const showFilterNav = useSelector(state => state.rootReducerStorePage.showFilterNav)
   const dataOriginal = useSelector(state => state.reducerDataShoes.data)
   const type_sort = useSelector(state => state.reducerDataShoes.type_sort)

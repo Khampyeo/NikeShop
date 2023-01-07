@@ -6,6 +6,7 @@ import MightLike from '../../Component/cartComponent/mightLike/MightLike'
 import Summary from '../../Component/cartComponent/summary/Summary'
 
 export default function CartPage() {
+  document.title = 'Nike. Bag'
   return (
     <div className="
       lg:px-9
