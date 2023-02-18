@@ -11,7 +11,7 @@ export default function StoreBody() {
   const status = useSelector(state => state.reducerDataShoes.status)
   const filter = useSelector(state => state.reducerDataShoes.filter)
   const dispatch = useDispatch()
-
+  console.log(data);
   useEffect(() => {
     const callApi = async () => {
       try {

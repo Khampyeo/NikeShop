@@ -5,7 +5,7 @@ export default function LoginPage() {
   document.title = 'Nike. Login'
 
   return (
-    <div>
+    <div className='h-[70vh]'>
       <LoginForm></LoginForm>
     </div>
   )
