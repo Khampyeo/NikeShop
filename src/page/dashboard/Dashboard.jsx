@@ -11,11 +11,14 @@ export default function Dashboard() {
   }
   return (
     <div className='flex'>
-      <div className={`${showNav ? 'ml-0' : 'ml-[-300px]'} transition-all`}>
-        <Nav></Nav>
+      <div className={`${showNav ? 'ml-0' : 'ml-[-300px]'} transition-all w-[300px]`}>
+        <div className={`fixed top-0 w-[300px]`}>
+          <Nav></Nav>
+        </div>
       </div>
+      <div className=""></div>
       <div className='flex-1 bg-[#f2edf3]'>
-        <div className={`fixed top-0 right-0 ${showNav?'w-[calc(100%-300px)]':'w-full'} transition-all z-50`}>
+        <div className={`fixed top-0 right-0 ${showNav ? 'w-[calc(100%-300px)]' : 'w-full'} transition-all z-50`}>
           <TopMenu setShowNav={handleShowNav}></TopMenu>
         </div>
         <div className="mt-[72px]">

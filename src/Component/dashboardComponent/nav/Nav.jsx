@@ -9,7 +9,7 @@ import './scrollbar.css'
 
 export default function Nav() {
     return (
-        <div className='h-[100vh] w-[300px] bg-white py-6 text-[#111] overflow-y-scroll nav-scrollbar'>
+        <div className='h-[100vh] w-full bg-white py-6 text-[#111] overflow-y-scroll nav-scrollbar'>
             <div className="flex justify-between items-center flex-col cursor-pointer">
                 <img src={LogoNike} alt="" className='w-[54px]' />
                 <span className="font-['League_Gothic'] text-[28px] translate-x-[-8px]">NIKE</span>
